@@ -1,0 +1,25 @@
+/*
+ * Generic dongle: stack it on the keyboard's central-side shield, e.g.
+ *
+ *   shield: corne_left dongle
+ *
+ * The keyboard shield brings its own matrix transform and physical layout,
+ * so they match the halves by construction. This overlay only swaps the key
+ * matrix for a keyless mock one. The node keeps the `kscan0` label so that
+ * both `chosen { zmk,kscan }` and physical layouts with `kscan = <&kscan0>`
+ * now point to the mock.
+ *
+ * Requires the keyboard to label its kscan node `kscan0` (ZMK convention).
+ * Revisit if ZMK moves from Zephyr's deprecated kscan API to the input API.
+ */
+
+/delete-node/ &kscan0;
+
+/ {
+    kscan0: kscan_dongle {
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
+    };
+};
